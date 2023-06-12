@@ -29,6 +29,7 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
+        if: github.event_name != 'release'
         with:
             name: Zalo Web.app
             path: ./dist/Zalo Web-darwin-arm64/Zalo Web.app
@@ -38,7 +39,7 @@ jobs:
         if: github.event_name == 'release'
         with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ./dist/Zalo Web-darwin-arm64/Zalo Web.app.zip*
+            file: ./dist/Zalo Web-darwin-arm64/Zalo Web.app*
             tag: ${{ github.ref }}
             file_glob: true
      
