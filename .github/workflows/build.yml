@@ -38,7 +38,7 @@ jobs:
         if: github.event_name == 'release'
         with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ./Zalo Web.zip*
+            file: ./dist/Zalo Web-darwin-arm64/Zalo Web.app.zip*
             tag: ${{ github.ref }}
             file_glob: true
      
