@@ -27,13 +27,20 @@ jobs:
     - run: npm install electron-packager --save-dev
     - run: npm run package-mac
 
-    - name: Upload Application Release
-      uses: softprops/action-gh-release@v1
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
       with:
-        files: |
-          ./dist/Zalo Web-darwin-arm64/*
-        tag_name: ${{ github.ref }}
-        draft: false
-        prerelease: false
-        token: ${{ secrets.GITHUB_TOKEN }}
+          name: app
+          path: ./dist/Zalo Web-darwin-arm64/*
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+            tag_name: ${{ github.ref }}
+            release_name: Zalo Web-Apple Silicon-${{ github.ref }}
+            draft: false
+            prerelease: false
+
     
