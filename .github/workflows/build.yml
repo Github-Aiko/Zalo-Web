@@ -24,7 +24,17 @@ jobs:
         run: npm install electron-packager --save-dev && npm run package-mac
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
             name: Zalo Web.app
             path: ./dist/Zalo Web-darwin-arm64/Zalo Web.app
+            
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        if: github.event_name == 'release'
+        with:
+            repo_token: ${{ secrets.GITHUB_TOKEN }}
+            file: ./Zalo Web.zip*
+            tag: ${{ github.ref }}
+            file_glob: true
+     
