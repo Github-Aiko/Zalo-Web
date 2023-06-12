@@ -41,22 +41,23 @@ jobs:
         run: |
             cd dist
             cd Zalo-darwin-arm64
-            zip -r Zalo.zip Zalo.app
+            zip -r Zalo-Web-Apple-Silicon.zip.zip Zalo.app
             cd ..
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        if: github.event_name != 'release'
+        
+            - name: Upload artifact
+            uses: actions/upload-artifact@v3
+            if: github.event_name != 'release'
+            with:
+              name: Zalo-Web-Apple-Silicon.zip
+              path: ./dist/Zalo-darwin-arm64/Zalo-Web-Apple-Silicon.zip
+    
+      - name: Upload release artifact
+        uses: actions/upload-release-asset@v1
+        if: github.event_name == 'release' && needs.build.result == 'success'
         with:
-            name: Zalo-Web-Apple-Silicon.zip
-            path: ./dist/Zalo-darwin-arm64/Zalo.zip
-
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        if: github.event_name == 'release'
-        with:
-            repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ./dist/Zalo-darwin-arm64/Zalo.zip
-            tag: ${{ github.ref }}
-            file_glob: true
+              upload_url: ${{ github.event.release.upload_url }}
+              asset_path: ./dist/Zalo-darwin-arm64/Zalo-Web-Apple-Silicon.zip
+              asset_name: Zalo-Web-Apple-Silicon.zip
+              asset_content_type: application/zip
+    
      
