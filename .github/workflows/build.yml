@@ -1,8 +1,10 @@
 name: Node.js CI
 
 on:
-  release:
-    types: [created]
+    workflow_dispatch:
+    push:
+      branches:
+        - main
 
 jobs:
   build:
@@ -28,7 +30,7 @@ jobs:
         with:
             name: Zalo Web.app
             path: ./dist/Zalo Web-darwin-arm64/Zalo Web.app
-            
+
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         if: github.event_name == 'release'
