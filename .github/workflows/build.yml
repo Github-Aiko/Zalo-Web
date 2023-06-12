@@ -21,7 +21,7 @@ jobs:
         run: npm ci
 
       - name: Build Application
-        run: npm run build
+        run: npm install electron-packager --save-dev && npm run package-mac
 
       - name: Create Release
         id: create_release
