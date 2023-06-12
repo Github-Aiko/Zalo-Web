@@ -26,20 +26,37 @@ jobs:
 
       - name: Build Application
         run: npm install electron-packager --save-dev && npm run package-mac
+    
+      - name: Remove trash
+        run: |
+            cd dist
+            cd Zalo-darwin-arm64
+            rm LICENSE
+            rm version
+            rm LICENSES.chromium.html
+            cd ..
+
+      - name: Create ZIP archive
+        shell: bash
+        run: |
+            cd dist
+            cd Zalo-darwin-arm64
+            zip -r Zalo.zip Zalo.app
+            cd ..
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         if: github.event_name != 'release'
         with:
-            name: Zalo Web.app
-            path: ./dist/Zalo Web-darwin-arm64/Zalo Web.app
+            name: Zalo-Web-Apple-Silicon.zip
+            path: ./dist/Zalo-darwin-arm64/Zalo.zip
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         if: github.event_name == 'release'
         with:
             repo_token: ${{ secrets.GITHUB_TOKEN }}
-            file: ./dist/Zalo Web-darwin-arm64/Zalo Web.app*
+            file: ./dist/Zalo-darwin-arm64/Zalo.zip
             tag: ${{ github.ref }}
             file_glob: true
      
