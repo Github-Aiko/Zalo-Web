@@ -34,13 +34,18 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset
-        id: upload-release-asset
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+            name: Zalo Web.app
+            path: ./dist/Zalo Web-darwin-arm64/Zalo Web.app
+            
+      - name: Upload to Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/Zalo Web-darwin-arm64/Zalo Web.app
-          asset_name: Zalo Web.app
-          asset_content_type: application/zip
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./dist/Zalo Web-darwin-arm64/Zalo Web.app
+            asset_name: Zalo Web.app
+            asset_content_type: application/zip
