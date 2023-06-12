@@ -24,22 +24,29 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install electron-packager --save-dev
-    - run: npm run package-mac
+    - run: npm run package-mac      
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-          name: app
-          path: ./dist/Zalo Web-darwin-arm64/*
-
+    # tôi muốn upload file này lên release của mình /dist/Zalo Web-darwin-arm64/Zalo Web.app
     - name: Create Release
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-            tag_name: ${{ github.ref }}
-            release_name: Zalo Web-Apple Silicon-${{ github.ref }}
-            draft: false
-            prerelease: false
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/Zalo Web-darwin-arm64/Zalo Web.app
+        asset_name: Zalo Web.app
+        asset_content_type: application/zip
+      
 
     
