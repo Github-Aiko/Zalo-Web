@@ -33,9 +33,6 @@ jobs:
         files: |
           ./dist/Zalo Web-darwin-arm64/*
         tag_name: ${{ github.ref }}
-        body: |
-          ## Changes
-          ${{ github.event.release.body }}
         draft: false
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
