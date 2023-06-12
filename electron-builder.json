@@ -1,0 +1,10 @@
+{
+    "name": "Zalo Web",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "target": "dmg"
+    }
+  }
+  
